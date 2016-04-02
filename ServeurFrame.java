@@ -17,11 +17,10 @@ import javax.swing.UIManager;
  */
  
 public class ServeurFrame extends JPanel implements ActionListener {
-	/** La frame d'affichage. */
+	
 	private static JFrame frame;
-	/** La frame qui appele de serveur. */
 	private ConnectFrame connectFrame;
-	/** Le thread du serveur. */
+	/** Pour le serveur. */
 	private Thread thread;
 /**
  * Constructeur de la Fenetre d'attente de connexion.
@@ -38,7 +37,7 @@ public ServeurFrame(ConnectFrame connectFrame) {
 	} catch (Exception error) {
 	}
 
-	/* Creation d'une nouvelle frame. */
+	
 	frame = new JFrame("Attendre un appel");
 
 	/* Gestion de la fermeture de cette frame. */
@@ -50,12 +49,12 @@ public ServeurFrame(ConnectFrame connectFrame) {
 	
 	setLayout(new BorderLayout());
 
-	/* Declaration d'un panel contenant un message. Affichage au centre. */
+	/* Message au centre.  */
 	JPanel pan1 = new JPanel();
 	pan1.add(new JLabel("Attente d'une connexion en cours..."));
 	add(pan1, "Center");
 
-	/* Declaration d'un panel contenant un bouton. Affichage au sud. */
+	/* Bouton au sud. */
 	JPanel pan2 = new JPanel();
 	JButton buttonAnnuler = new JButton("Annuler");
 	buttonAnnuler.addActionListener(this);
@@ -70,33 +69,27 @@ public ServeurFrame(ConnectFrame connectFrame) {
 	/* Lancement du serveur. */
 	new Serveur(this);
 }
-/**
- * Evenement lie au bouton Annuler!
- * @param e L'evenement genere par le bouton.
- */
+
  
 public void actionPerformed(ActionEvent e) {
 	String action = e.getActionCommand();
 	if (action.equals("Annuler")) {
-		if (thread != null) { // Le serveur est actif.
+		if (thread != null) { 
 			frame.dispose();
-			thread.stop(); // On arrete le serveur.
-			connectFrame.setSocket(null); // Il n'y a pas eu de connexion.
+			/** On arrête le serveur grâce au thread. */
+			thread.stop(); 
+			/** Pas de connexion. */
+			connectFrame.setSocket(null); 
 		}
 	}
 }
-/**
- * Affecte le socket a la frame de Connexion.
- * @param socket Le socket de connxion par lequel va se faire le jeu.
- */
+
 public void setSocket(Socket socket) {
-	connectFrame.setSocket(socket);  // On envoie le socket.
-	frame.dispose();                            // On ferme la fenetre.
-	thread.stop();                                // On arrete le socket.
+	connectFrame.setSocket(socket); 
+	frame.dispose();                            /** Ferme la fenetre. */
+	thread.stop();                                /** Stop le socket. */
 }
-/**
- * This method was created in VisualAge.
- */
+
  
 public void setThread(Thread thread) {
 	this.thread = thread;
